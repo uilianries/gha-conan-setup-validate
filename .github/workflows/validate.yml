@@ -13,6 +13,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Unset PKG_CONFIG_PATH
+        run: Remove-Item Env:\PKG_CONFIG_PATH -ErrorAction SilentlyContinue
+
       - name: Install Conan
         uses: conan-io/setup-conan@v1
 
@@ -24,6 +27,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Unset PKG_CONFIG_PATH
+        run: Remove-Item Env:\PKG_CONFIG_PATH -ErrorAction SilentlyContinue
 
       - name: Install Python
         uses: actions/setup-python@v5
