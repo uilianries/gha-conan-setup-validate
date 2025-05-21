@@ -34,7 +34,7 @@ jobs:
         run: pipx install conan
 
       - name: Configure Conan profile
-        run: conan profile new default --detect
+        run: conan profile detect
 
       - name: Install dependencies
         run: conan install -r conancenter --requires=ffmpeg/7.1.1 --build="ffmpeg/*"
