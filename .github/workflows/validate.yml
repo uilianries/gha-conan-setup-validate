@@ -13,11 +13,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Unset PKG_CONFIG_PATH
-        run: Remove-Item Env:\PKG_CONFIG_PATH -ErrorAction SilentlyContinue
-
       - name: Install Conan
         uses: conan-io/setup-conan@v1
+
+      - name: Unset PKG_CONFIG_PATH
+        run: Remove-Item Env:\PKG_CONFIG_PATH -ErrorAction SilentlyContinue
 
       - name: Install dependencies
         run: conan install -r conancenter --requires=ffmpeg/7.1.1 --build="ffmpeg/*"
@@ -28,13 +28,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Unset PKG_CONFIG_PATH
-        run: Remove-Item Env:\PKG_CONFIG_PATH -ErrorAction SilentlyContinue
-
       - name: Install Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.x'
+          update-environment: false
 
       - name: Install Conan
         run: pipx install conan
