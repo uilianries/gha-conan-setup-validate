@@ -16,9 +16,6 @@ jobs:
       - name: Install Conan
         uses: uilianries/setup-conan@fix-env
 
-      - name: Unset PKG_CONFIG_PATH
-        run: Remove-Item Env:\PKG_CONFIG_PATH -ErrorAction SilentlyContinue
-
       - name: Install dependencies
         run: conan install -r conancenter --requires=ffmpeg/7.1.1 --build="ffmpeg/*"
 
