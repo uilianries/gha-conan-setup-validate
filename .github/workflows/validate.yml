@@ -27,9 +27,14 @@ jobs:
 
       - name: Install Python
         uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
 
       - name: Install Conan
         run: pipx install conan
+
+      - name: Configure Conan profile
+        run: conan profile new default --detect
 
       - name: Install dependencies
         run: conan install -r conancenter --requires=ffmpeg/7.1.1 --build="ffmpeg/*"
