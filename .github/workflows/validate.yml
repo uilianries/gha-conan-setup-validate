@@ -6,19 +6,30 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    strategy:
-      matrix:
-        os: [windows-latest, windows-2022]
 
-    runs-on: ${{ matrix.os }}
-
+  build-ffmpeg-conan-setup:
+    runs-on: windows-2022
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Install Conan
         uses: conan-io/setup-conan@v1
+
+      - name: Install dependencies
+        run: conan install -r conancenter --requires=ffmpeg/7.1.1 --build="ffmpeg/*"
+
+  build-ffmpeg-conan-install:
+    runs-on: windows-2022
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Python
+        uses: actions/setup-python@v5
+
+      - name: Install Conan
+        run: pipx install conan
 
       - name: Install dependencies
         run: conan install -r conancenter --requires=ffmpeg/7.1.1 --build="ffmpeg/*"
