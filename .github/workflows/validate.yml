@@ -21,4 +21,4 @@ jobs:
         uses: conan-io/setup-conan@v1
 
       - name: Install dependencies
-        run: conan install -r conancenter --requires=ffmpeg/7.1.1 --build="ffmpeg/*
+        run: conan install -r conancenter --requires=ffmpeg/7.1.1 --build="ffmpeg/*"
