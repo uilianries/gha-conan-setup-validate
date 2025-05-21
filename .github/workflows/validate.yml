@@ -14,7 +14,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install Conan
-        uses: conan-io/setup-conan@v1
+        uses: uilianries/setup-conan@fix-env
 
       - name: Unset PKG_CONFIG_PATH
         run: Remove-Item Env:\PKG_CONFIG_PATH -ErrorAction SilentlyContinue
