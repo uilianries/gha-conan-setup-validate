@@ -16,6 +16,14 @@ jobs:
       - name: Install Conan
         uses: uilianries/setup-conan@fix-env
 
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Check python version
+        run: python --version
+
       - name: Install dependencies
         run: conan install -r conancenter --requires=ffmpeg/7.1.1 --build="ffmpeg/*"
 
