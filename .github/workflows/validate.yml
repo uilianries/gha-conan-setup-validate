@@ -13,13 +13,33 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Check for conan
+        shell: bash
+        run: |
+          if ! command -v conan &> /dev/null
+          then
+              echo "Conan could not be found!!"
+          fi
+
       - name: Install Conan
         uses: uilianries/setup-conan@fix-env
+
+      - name: Check for installed conan
+        shell: bash
+        run: |
+          which conan
+          conan --version
 
       - name: Install Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.13'
+          python-version: '3.12'
+
+      - name: Check for installed conan
+        shell: bash
+        run: |
+          which conan
+          conan --version
 
       - name: Check python version
         run: python --version
