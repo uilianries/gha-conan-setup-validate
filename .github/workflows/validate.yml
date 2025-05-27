@@ -36,7 +36,7 @@ jobs:
       - name: Install ffmpeg package on Linux
         if: runner.os == 'Linux'
         continue-on-error: true
-        run: conan install -r conancenter --requires=ffmpeg/7.1.1 -of output --build="ffmpeg/*" -c tools.build:verbosity=verbose -c tools.compilation:verbosity=verbose -c tools.system.package_manager:sudo=false -c tools.system.package_manager:mode=install -o "&:with_xcb=False" -o "&:with_xlib=False" -o "&:with_pulse=False"
+        run: conan install -r conancenter --requires=ffmpeg/7.1.1 -of output --build="ffmpeg/*" -c tools.build:verbosity=verbose -c tools.compilation:verbosity=verbose -c tools.system.package_manager:sudo=true -c tools.system.package_manager:mode=install -o "&:with_xcb=False" -o "&:with_xlib=False" -o "&:with_pulse=False"
 
       - name: Upload build folder to Github artifacts
         if: runner.os == 'Windows'
