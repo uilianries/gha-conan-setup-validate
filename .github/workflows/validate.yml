@@ -24,8 +24,6 @@ jobs:
         run: |
           which conan
           conan --version
-          which pkg-config
-          pkg-config --version
 
       - name: Check python version
         run: python --version
