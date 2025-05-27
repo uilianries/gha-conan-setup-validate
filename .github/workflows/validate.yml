@@ -37,3 +37,7 @@ jobs:
         if: runner.os == 'Linux'
         continue-on-error: true
         run: conan install -r conancenter --requires=ffmpeg/7.1.1 --build="ffmpeg/*" -c tools.build:verbosity=verbose -c tools.compilation:verbosity=verbose -c tools.system.package_manager:sudo=false -c tools.system.package_manager:mode=report -o "&:with_xcb=False" -o "&:with_xlib=False" -o "&:with_pulse=False"
+
+      - name: Check ffmpeg config.log
+        if: runner.os == 'Linux'
+        run: find ~/.conan2/p -type f -name config.log -exec cat {} + ;
