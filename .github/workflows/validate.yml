@@ -31,13 +31,13 @@ jobs:
       - name: Install ffmpeg package on Windows
         if: runner.os == 'Windows'
         continue-on-error: true
-        run: conan install -r conancenter --requires=ffmpeg/7.1.1 --build="ffmpeg/*"
+        run: conan install -r conancenter --requires=ffmpeg/7.1.1 -of output --build="ffmpeg/*"
 
       - name: Install ffmpeg package on Linux
         if: runner.os == 'Linux'
         continue-on-error: true
-        run: conan install -r conancenter --requires=ffmpeg/7.1.1 --build="ffmpeg/*" -c tools.build:verbosity=verbose -c tools.compilation:verbosity=verbose -c tools.system.package_manager:sudo=false -c tools.system.package_manager:mode=report -o "&:with_xcb=False" -o "&:with_xlib=False" -o "&:with_pulse=False"
+        run: conan install -r conancenter --requires=ffmpeg/7.1.1 -of output --build="ffmpeg/*" -c tools.build:verbosity=verbose -c tools.compilation:verbosity=verbose -c tools.system.package_manager:sudo=false -c tools.system.package_manager:mode=report -o "&:with_xcb=False" -o "&:with_xlib=False" -o "&:with_pulse=False"
 
       - name: Check ffmpeg config.log
         shell: bash
-        run: find ${HOME}/.conan2/p -type f -name config.log -exec cat {} + ;
+        run: find output/ -type f -name config.log -exec cat {} + ;
