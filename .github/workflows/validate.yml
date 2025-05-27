@@ -38,7 +38,9 @@ jobs:
         continue-on-error: true
         run: conan install -r conancenter --requires=ffmpeg/7.1.1 -of output --build="ffmpeg/*" -c tools.build:verbosity=verbose -c tools.compilation:verbosity=verbose -c tools.system.package_manager:sudo=false -c tools.system.package_manager:mode=report -o "&:with_xcb=False" -o "&:with_xlib=False" -o "&:with_pulse=False"
 
-      - name: Check ffmpeg config.log
-        continue-on-error: true
-        shell: bash
-        run: find output/ -type f -name config.log -exec cat {} + ;
+      - name: Upload build folder to Github artifacts
+        if: runner.os == 'Windows'
+        uses: actions/upload-artifact@v4
+        with:
+          path: 'C:\Users\runneradmin\.conan2\p\b'
+          name: ffmpeg-build-${{ matrix.os }}
