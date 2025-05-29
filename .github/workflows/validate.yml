@@ -44,12 +44,12 @@ jobs:
           PKG_CONFIG_PATH: /usr/lib/pkgconfig
         run: conan create . -c tools.build:verbosity=verbose -c tools.compilation:verbosity=verbose
 
-      - name: Add PKG_CONFIG_PATH as forward slash path style
-        env:
-          PKG_CONFIG_PATH: C:/usr/lib/pkgconfig
-        run: conan create . -c tools.build:verbosity=verbose -c tools.compilation:verbosity=verbose
-
       - name: Add PKG_CONFIG_PATH as bask slash path style
         env:
           PKG_CONFIG_PATH: C:\usr\lib\pkgconfig
+        run: conan create . -c tools.build:verbosity=verbose -c tools.compilation:verbosity=verbose
+
+      - name: Add PKG_CONFIG_PATH as forward slash path style
+        env:
+          PKG_CONFIG_PATH: C:/usr/lib/pkgconfig
         run: conan create . -c tools.build:verbosity=verbose -c tools.compilation:verbosity=verbose
