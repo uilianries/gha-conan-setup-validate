@@ -20,9 +20,9 @@ jobs:
       - name: Install self-contained Conan on Windows
         if: runner.os == 'Windows'
         run: |
-          curl -sSL -o $RUNNER_TEMP/conan.zip https://github.com/conan-io/conan/releases/download/2.16.1/conan-2.16.1-windows-x86_64.zip
-          unzip -q "$RUNNER_TEMP/conan.zip" -d "$HOME/bin"
-          echo "PATH=$HOME/bin:$PATH" >> $GITHUB_ENV
+          curl -sSL -o conan.zip https://github.com/conan-io/conan/releases/download/2.16.1/conan-2.16.1-windows-x86_64.zip
+          powershell -Command "Expand-Archive -Path conan.zip -DestinationPath $env:USERPROFILE\conan-bin"
+          echo "$env:USERPROFILE\conan-bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 
       - name: Install self-contained Conan on Linux
         id: install-self-contained-conan-linux
