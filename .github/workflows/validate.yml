@@ -43,19 +43,19 @@ jobs:
           conan profile detect || true
 
       - name: Create package with regular build
-        run: create . -c tools.build:verbosity=verbose -c tools.compilation:verbosity=verbose
+        run: conan create . -c tools.build:verbosity=verbose -c tools.compilation:verbosity=verbose
 
       - name: Add PKG_CONFIG_PATH as unix path style
         env:
           PKG_CONFIG_PATH: ${{ github.workspace }}/pkgconfig
-        run: create . -c tools.build:verbosity=verbose -c tools.compilation:verbosity=verbose
+        run: conan create . -c tools.build:verbosity=verbose -c tools.compilation:verbosity=verbose
 
       - name: Add PKG_CONFIG_PATH as forward slash path style
         env:
           PKG_CONFIG_PATH: C:/usr/lib/pkgconfig
-        run: create . -c tools.build:verbosity=verbose -c tools.compilation:verbosity=verbose
+        run: conan create . -c tools.build:verbosity=verbose -c tools.compilation:verbosity=verbose
 
       - name: Add PKG_CONFIG_PATH as bask slash path style
         env:
           PKG_CONFIG_PATH: C:\usr\lib\pkgconfig
-        run: create . -c tools.build:verbosity=verbose -c tools.compilation:verbosity=verbose
+        run: conan create . -c tools.build:verbosity=verbose -c tools.compilation:verbosity=verbose
