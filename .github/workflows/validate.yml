@@ -25,6 +25,7 @@ jobs:
           conan_version=2.16.1
           curl -sSL -o $RUNNER_TEMP/conan.zip https://github.com/conan-io/conan/releases/download/${conan_version}/conan-${conan_version}-windows-x86_64.zip
           unzip -q "$RUNNER_TEMP/conan.zip" -d "$HOME/bin"
+          echo "PATH=$HOME/bin:$PATH" >> $GITHUB_ENV
 
       - name: Install self-contained Conan on Linux
         shell: bash
@@ -35,6 +36,7 @@ jobs:
           wget -q -O $RUNNER_TEMP/conan.tgz https://github.com/conan-io/conan/releases/download/${conan_version}/conan-${conan_version}-linux-x86_64.tgz
           mkdir -p "$HOME/.local"
           tar -xzf "$RUNNER_TEMP/conan.tgz" -C "$HOME/.local"
+          echo "PATH=$HOME/.local/bin:$PATH" >> $GITHUB_ENV
 
       - name: Detect Conan profile
         shell: bash
