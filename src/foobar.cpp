@@ -2,11 +2,12 @@
 #include "foobar.h"
 
 #include <zlib.h>
-#include <fmt/printf.h>
+#include <nlohmann/json.hpp>
+
 
 void foobar(){
 
-    fmt::printf("Zlib Version: %s\n", zlibVersion());
+    std::cout << "Zlib Version: " << zlibVersion() << std::endl;
 
     #ifdef NDEBUG
     std::cout << "foobar/0.1.0: Hello World Release!\n";

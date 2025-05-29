@@ -1,6 +1,7 @@
 from conan import ConanFile
 from conan.tools.gnu import Autotools
 from conan.tools.layout import basic_layout
+from conan.tools.microsoft import is_msvc
 
 
 class foobarConan(ConanFile):
@@ -11,7 +12,7 @@ class foobarConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False], "fPIC": [True, False]}
     default_options = {"shared": False, "fPIC": True}
-    requires = "fmt/11.2.0", "zlib/1.3.1"
+    requires = "nlohmann_json/3.12.0", "zlib/1.3.1"
     exports_sources = "configure.ac", "Makefile.am", "src/*"
     generators = "AutotoolsToolchain", "PkgConfigDeps"
     implements = ["auto_shared_fpic"]
