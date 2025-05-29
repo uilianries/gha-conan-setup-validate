@@ -9,6 +9,7 @@ jobs:
 
   build-ffmpeg-conan-setup:
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-22.04, windows-2022]
     runs-on: ${{ matrix.os }}
@@ -16,31 +17,45 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install Conan
-        uses: conan-io/setup-conan@v1
-
-      - name: Check for installed conan
+      - name: Install self-contained Conan on Windows
         shell: bash
+        id: install-self-contained-conan-windows
+        if: runner.os == 'Windows'
         run: |
-          which conan
-          conan --version
+          conan_version=2.16.1
+          curl -sSL -o $RUNNER_TEMP/conan.zip https://github.com/conan-io/conan/releases/download/${conan_version}/conan-${conan_version}-windows-x86_64.zip
+          unzip -q "$RUNNER_TEMP/conan.zip" -d "$HOME/bin"
 
-      - name: Check python version
-        run: python --version
-
-      - name: Install ffmpeg package on Windows
-        if: runner.os == 'Windows'
-        continue-on-error: true
-        run: conan install -r conancenter --requires=ffmpeg/7.1.1 -of output --build="ffmpeg/*"
-
-      - name: Install ffmpeg package on Linux
+      - name: Install self-contained Conan on Linux
+        shell: bash
+        id: install-self-contained-conan-linux
         if: runner.os == 'Linux'
-        continue-on-error: true
-        run: conan install -r conancenter --requires=ffmpeg/7.1.1 -of output --build="ffmpeg/*" -c tools.build:verbosity=verbose -c tools.compilation:verbosity=verbose -c tools.system.package_manager:sudo=true -c tools.system.package_manager:mode=install -o "&:with_xcb=False" -o "&:with_xlib=False" -o "&:with_pulse=False"
+        run: |
+          conan_version=2.16.1
+          wget -q -O $RUNNER_TEMP/conan.tgz https://github.com/conan-io/conan/releases/download/${conan_version}/conan-${conan_version}-linux-x86_64.tgz
+          mkdir -p "$HOME/.local"
+          tar -xzf "$RUNNER_TEMP/conan.tgz" -C "$HOME/.local"
 
-      - name: Upload build folder to Github artifacts
-        if: runner.os == 'Windows'
-        uses: actions/upload-artifact@v4
-        with:
-          path: 'C:\Users\runneradmin\.conan2\p\b'
-          name: ffmpeg-build-${{ matrix.os }}
+      - name: Detect Conan profile
+        shell: bash
+        id: detect-conan-profile
+        run: |
+          conan profile detect || true
+
+      - name: Create package with regular build
+        run: create . -c tools.build:verbosity=verbose -c tools.compilation:verbosity=verbose
+
+      - name: Add PKG_CONFIG_PATH as unix path style
+        env:
+          PKG_CONFIG_PATH: ${{ github.workspace }}/pkgconfig
+        run: create . -c tools.build:verbosity=verbose -c tools.compilation:verbosity=verbose
+
+      - name: Add PKG_CONFIG_PATH as forward slash path style
+        env:
+          PKG_CONFIG_PATH: C:/usr/lib/pkgconfig
+        run: create . -c tools.build:verbosity=verbose -c tools.compilation:verbosity=verbose
+
+      - name: Add PKG_CONFIG_PATH as bask slash path style
+        env:
+          PKG_CONFIG_PATH: C:\usr\lib\pkgconfig
+        run: create . -c tools.build:verbosity=verbose -c tools.compilation:verbosity=verbose
