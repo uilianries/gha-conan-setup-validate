@@ -20,8 +20,10 @@ class foobarConan(ConanFile):
         basic_layout(self)
 
     def build_requirements(self):
-        if self.settings.os == "Windows":
-            self.tool_requires("libtool/2.4.7")
+        self.tool_requires("libtool/2.4.7")
+        if not self.conf.get("tools.gnu:pkg_config", check_type=str):
+            self.tool_requires("pkgconf/[>=2.2 <3]")
+        if self.settings_build.os == "Windows":
             self.win_bash = True
             if not self.conf.get("tools.microsoft.bash:path", check_type=str):
                 self.tool_requires("msys2/cci.latest")
